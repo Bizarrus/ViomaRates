@@ -1,0 +1,162 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/BookingHelper;component/UI/Styles/Colors.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- ComboBoxTextBox -->
+    <ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
+        <Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
+    </ControlTemplate>
+
+    <!-- ComboBoxToggleButton -->
+    <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="20" />
+            </Grid.ColumnDefinitions>
+
+            <Border x:Name="Border" Grid.ColumnSpan="2" CornerRadius="2" Background="{StaticResource HotelGreen}" BorderBrush="#FF898989" BorderThickness="1" />
+            <Border x:Name="Border2" Grid.Column="0" CornerRadius="2,0,0,2" Margin="1" Background="White" BorderBrush="#FF898989" BorderThickness="0,0,1,0" />
+
+            <Path x:Name="Arrow" Grid.Column="1" Fill="#FFFFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource HotelBlue}" />
+                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource HotelBlue}" />
+                <Setter TargetName="Border2" Property="BorderBrush" Value="{StaticResource HotelBlue}" />
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource HotelGreen}" />
+                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource HotelGreen}" />
+                <Setter TargetName="Border2" Property="BorderBrush" Value="{StaticResource HotelGreen}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource HotelGreen}" />
+                <Setter TargetName="Arrow" Property="Fill" Value="{StaticResource HotelGreen}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    
+    <!-- ComboBox -->
+    <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+        <Setter Property="MinWidth" Value="120"/>
+        <Setter Property="MinHeight" Value="20"/>
+
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="{x:Type Grid}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource HotelBrown}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="16" MinHeight="16" MaxHeight="16" />
+                                <RowDefinition Height="16" MinHeight="16" MaxHeight="16" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock x:Name="Name" Text="{Binding Name}" Grid.Row="0" Foreground="Black" Grid.ColumnSpan="2" FontWeight="Bold" />
+                            <TextBlock x:Name="Text" Text="{Binding Text}" Grid.Row="1" Grid.Column="0" FontStyle="Italic" FontSize="10px" Foreground="#66000000" />
+                            <TextBlock x:Name="ID" Text="{Binding ID, StringFormat=#\{0\}}" Grid.Row="1" Grid.Column="1" FontSize="10px" FontStyle="Italic" Foreground="{DynamicResource HotelRed}" />
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                    <Grid>
+                        <ToggleButton x:Name="ToggleButton" Template="{StaticResource ComboBoxToggleButton}" Grid.Column="2" Focusable="False" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press" />
+                        <ContentPresenter x:Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3,3,23,3" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <TextBox x:Name="PART_EditableTextBox" Style="{x:Null}" Template="{StaticResource ComboBoxTextBox}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,3,23,3" Focusable="True" Background="Transparent" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}" />
+                        <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
+                            <Grid x:Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                <Border x:Name="DropDownBorder" Background="White" BorderThickness="1" BorderBrush="#FF898989" />
+                                <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                </ScrollViewer>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasItems" Value="False">
+                            <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource HotelGreen}"/>
+                        </Trigger>
+                        <Trigger Property="IsGrouping" Value="True">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
+                        </Trigger>
+                        <Trigger SourceName="Popup" Property="AllowsTransparency" Value="True">
+                            <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="0,0,2,2"/>
+                            <Setter TargetName="DropDownBorder" Property="Margin" Value="0,-1,0,0"/>
+                        </Trigger>
+                        <Trigger Property="IsEditable" Value="True">
+                            <Setter Property="IsTabStop" Value="False"/>
+                            <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ComboBoxItem -->
+    <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
+        <Setter Property="UIElement.SnapsToDevicePixels" Value="True"/>
+        <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="TextElement.Foreground"  Value="{StaticResource HotelRed}"/>
+        <Setter Property="FrameworkElement.OverridesDefaultStyle" Value="True"/>
+
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                    <Border Name="Border" SnapsToDevicePixels="True">
+                        <Grid Background="{TemplateBinding Background}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="16" MinHeight="16" MaxHeight="16" />
+                                <RowDefinition Height="16" MinHeight="16" MaxHeight="16" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock x:Name="Name" Text="{Binding Name}" Grid.Row="0" Foreground="Black" Grid.ColumnSpan="2" FontWeight="Bold" />
+                            <TextBlock x:Name="Text" Text="{Binding Text}" Grid.Row="1" Grid.Column="0" FontStyle="Italic" FontSize="10px" Foreground="#66000000" />
+                            <TextBlock x:Name="ID" Text="{Binding ID, StringFormat=#\{0\}}" Grid.Row="1" Grid.Column="1" FontSize="10px" FontStyle="Italic" Foreground="{DynamicResource HotelRed}" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ComboBoxItem.IsHighlighted" Value="True">
+                            <Setter Property="Panel.Background" TargetName="Border" Value="{DynamicResource HotelBrown}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

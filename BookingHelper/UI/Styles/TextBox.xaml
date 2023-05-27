@@ -1,0 +1,29 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/BookingHelper;component/UI/Styles/Colors.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type TextBox}">
+        <Setter Property="Foreground" Value="#FF333333"/>
+        <Setter Property="Background" Value="#FFFFFFFF"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource HotelGreen}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="FontSize" Value="13px"/>
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+
+    <Style TargetType="{x:Type PasswordBox}">
+        <Setter Property="Foreground" Value="#FF333333"/>
+        <Setter Property="Background" Value="#FFFFFFFF"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource HotelGreen}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="FontSize" Value="13px"/>
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,6 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="HotelGreen" Color="#FF86AC3F"/>
+    <SolidColorBrush x:Key="HotelBlue" Color="#FF123659"/>
+    <SolidColorBrush x:Key="HotelBrown" Color="#FFB3A6A0"/>
+    <SolidColorBrush x:Key="HotelRed" Color="#FFDF4F64"/>
+</ResourceDictionary>
